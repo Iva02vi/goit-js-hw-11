@@ -6,6 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const form = document.querySelector('form');
 const searchValue = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 
 const searchParams = new URLSearchParams({
   key: '41708261-c154389f16c12e10553f8f229',
@@ -15,15 +16,16 @@ const searchParams = new URLSearchParams({
     safesearch: true,
 });
 
-const lightbox = new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
+const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
     captionDelay: 250
 });
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    gallery.innerHTML = '<span class="loader"></span>';
-    searchParams.set("q", searchValue.value.trim());
+    gallery.innerHTML = '';
+    loader.style.display = 'block';
+    searchParams.set('q', searchValue.value.trim());
     fetchImages();
     searchValue.value = '';
 });
@@ -48,7 +50,6 @@ const fetchImages = () => {
                                 <img
                                     class="gallery-image"
                                     src="${webformatURL}"
-                                    data-source="${largeImageURL}"
                                     alt="${tags}"
                                 />
                                 <ul class="img-description">
@@ -65,12 +66,16 @@ const fetchImages = () => {
 
                 lightbox.refresh();
             } else {
-                gallery.innerHTML = '';
                 iziToast.error({
                     message: 'Sorry, there are no images matching your search query. Please try again!',
-                    position: "topRight",
+                    position: 'topRight',
                 });
-            }
+            };
         })
-        .catch(error => console.log(error));
-}
+        .catch(error => {
+            console.log(error);
+        })
+        .finally(() => {
+            loader.style.display = 'none';
+        });
+};

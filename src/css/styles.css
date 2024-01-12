@@ -78,9 +78,11 @@ ul {
   padding-top: 32px;
 }
 
-.gallery {
+.gallery-container {
   margin: 32px auto;
-  padding: 0;
+}
+
+.gallery {
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
@@ -124,6 +126,7 @@ ul {
 }
 
 .loader {
+  margin: auto;
   width: 32px;
   height: 32px;
   position: relative;
@@ -131,6 +134,7 @@ ul {
   color: #4e75ff;
   animation: fill 1s ease-in infinite alternate;
 }
+
 .loader::before,
 .loader::after {
   content: '';
